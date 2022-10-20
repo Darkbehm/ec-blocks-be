@@ -73,7 +73,7 @@
     "testEnvironment": "node"
   },
   "lint-staged": {
-    "src/**/*.{ts,css,html}": [
+    "src/**/*.ts": [
       "yarn prettier --write",
       "yarn lint --fix"
     ]
