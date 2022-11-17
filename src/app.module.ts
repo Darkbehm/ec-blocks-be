@@ -1,16 +1,22 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersService } from './users/users.service';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UserModule } from './user/user.module';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+
+ConfigModule.forRoot();
 
 @Module({
   imports: [
     MongooseModule.forRoot(
-      `mongodb+srv://${process.env.USERDB}:${process.env.PASSWORDDB}@${process.env.DATABASEURL}/?retryWrites=true&w=majority"`,
+      `mongodb+srv://${process.env.USERDB}:${process.env.PASSWORDDB}@${process.env.DATABASEURL}/?retryWrites=true&w=majority`,
     ),
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, UsersService],
+  providers: [AppService],
 })
 export class AppModule {}
