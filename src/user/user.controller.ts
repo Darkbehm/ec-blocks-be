@@ -1,17 +1,20 @@
 import {
+  Body,
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
+  Patch,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { UserService } from './user.service';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guards';
+import { USER_TYPES } from 'src/models/user';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { UserService } from './user.service';
 
 @Controller('users')
 @ApiTags('users')
@@ -24,6 +27,8 @@ export class UserController {
   }
 
   @Get()
+  @Roles(USER_TYPES.ADMIN)
+  @UseGuards(JwtGuard, RolesGuard)
   findAll() {
     return this.userService.findAll();
   }
@@ -33,7 +38,6 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @UseGuards(JwtGuard)
   @Patch('/update/:id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
