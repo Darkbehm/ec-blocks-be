@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-import { User } from 'src/user/schemas/user.schema';
+import { User } from 'src/modules/user/schemas/user.schema';
 
 export enum USER_TYPES {
   ADMIN = 'admin',

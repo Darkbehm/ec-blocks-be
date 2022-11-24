@@ -8,10 +8,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
-import { RolesGuard } from 'src/auth/guards/roles.guards';
-import { USER_TYPES } from 'src/models/user';
+import { Roles } from 'src/modules/auth/decorators/roles.decorator';
+import { JwtGuard } from 'src/modules/auth/guards/jwt.guard';
+import { RolesGuard } from 'src/modules/auth/guards/roles.guards';
+import { USER_TYPES } from 'src/types';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
@@ -33,11 +33,13 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @UseGuards(JwtGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
   }
 
+  @UseGuards(JwtGuard)
   @Patch('/update/:id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
@@ -45,7 +47,7 @@ export class UserController {
 
   @UseGuards(JwtGuard)
   @Patch('/remove/:id')
-  remove(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.remove(id, updateUserDto);
+  remove(@Param('id') id: string) {
+    return this.userService.remove(id);
   }
 }

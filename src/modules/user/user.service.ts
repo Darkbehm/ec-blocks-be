@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schemas/user.schema';
-import { UserDetail, UserDocument } from 'src/models/user';
+import { UserDetail, UserDocument } from 'src/types';
 
 @Injectable()
 export class UserService {
@@ -67,17 +67,21 @@ export class UserService {
     );
   }
 
-  async remove(id: string, updateUserDto: UpdateUserDto): Promise<User | null> {
-    return this.userModel
-      .findOneAndUpdate(
-        { _id: id },
-        {
-          ...updateUserDto,
-          updatedAt: Date.now(),
-          isDeleted: true,
-        },
-        { new: true },
-      )
-      .exec();
+  async remove(id: string): Promise<User | null> {
+    const user = this.userModel.findOne({ _id: id }).exec();
+    if (user) {
+      return this.userModel
+        .findOneAndUpdate(
+          { _id: id },
+          {
+            ...user,
+            updatedAt: Date.now(),
+            isDeleted: true,
+          },
+          { new: true },
+        )
+        .exec();
+    }
+    return null;
   }
 }

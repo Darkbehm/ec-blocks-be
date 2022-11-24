@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { File } from 'src/models/file';
+import { File } from 'src/types';
 
 export interface Store {
   owner: mongoose.Schema.Types.ObjectId;
