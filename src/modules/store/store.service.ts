@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { FilesService } from 'src/files/files.service';
-import { StoreDocument } from 'src/models/store';
+import { FilesService } from 'src/modules/files/files.service';
+import { StoreDocument } from 'src/types';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
 import { Store } from './schemas/store.schema';

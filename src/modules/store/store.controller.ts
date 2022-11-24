@@ -13,11 +13,11 @@ import {
 import { StoreService } from './store.service';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { JwtGuard } from 'src/modules/auth/guards/jwt.guard';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { USER_TYPES } from 'src/models/user';
-import { RolesGuard } from 'src/auth/guards/roles.guards';
+import { Roles } from 'src/modules/auth/decorators/roles.decorator';
+import { USER_TYPES } from 'src/types';
+import { RolesGuard } from 'src/modules/auth/guards/roles.guards';
 
 @Controller('store')
 export class StoreController {
