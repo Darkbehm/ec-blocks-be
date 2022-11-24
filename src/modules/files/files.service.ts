@@ -2,16 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
 import { ConfigModule } from '@nestjs/config';
 import { v4 as uuid } from 'uuid';
-import { FileDocument } from 'src/types';
+import { File } from 'src/types';
 
 ConfigModule.forRoot();
 
 @Injectable()
 export class FilesService {
-  async uploadPublicFile(
-    dataBuffer: Buffer,
-    filename: string,
-  ): Promise<FileDocument> {
+  async uploadPublicFile(dataBuffer: Buffer, filename: string): Promise<File> {
     const s3 = new S3();
     const uploadResult = await s3
       .upload({
