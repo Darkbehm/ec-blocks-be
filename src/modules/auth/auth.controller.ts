@@ -19,7 +19,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async login(
     @Body() user: ExistingUserDto,
-  ): Promise<{ token: string } | null> {
+  ): Promise<{ token: string; user: UserDetail } | null> {
     return this.authService.login(user);
   }
 }
