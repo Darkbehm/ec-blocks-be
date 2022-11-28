@@ -12,7 +12,7 @@ export class FilesService {
     const s3 = new S3();
     const uploadResult = await s3
       .upload({
-        Bucket: process.env.EC_AWS_PUBLIC_BUCKET_NAME ?? '',
+        Bucket: process.env.AWS_PUBLIC_BUCKET_NAME ?? '',
         Body: dataBuffer,
         Key: `${uuid()}-${filename}`,
       })
@@ -28,7 +28,7 @@ export class FilesService {
     const s3 = new S3();
     await s3
       .deleteObject({
-        Bucket: process.env.EC_AWS_PUBLIC_BUCKET_NAME ?? '',
+        Bucket: process.env.AWS_PUBLIC_BUCKET_NAME ?? '',
         Key: fileKey,
       })
       .promise();
