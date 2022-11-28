@@ -1,18 +1,9 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/modules/auth/decorators/roles.decorator';
 import { JwtGuard } from 'src/modules/auth/guards/jwt.guard';
 import { RolesGuard } from 'src/modules/auth/guards/roles.guards';
 import { USER_TYPES } from 'src/types';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 
@@ -20,11 +11,6 @@ import { UserService } from './user.service';
 @ApiTags('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
 
   @Get()
   @Roles(USER_TYPES.ADMIN)
