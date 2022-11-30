@@ -8,6 +8,7 @@ export interface Store {
   keyWords: string[];
   favIcon: File;
   logo: File;
+  bgImage: File;
   globalCss: string;
   globalJs: string;
   images: File[];
@@ -17,6 +18,15 @@ export interface Store {
   updatedAt: Date;
   isActive: boolean;
   isDeleted: boolean;
+}
+
+export interface StoreDetails {
+  tittle: string;
+  description: string;
+  keyWords: string[];
+  favIcon: File;
+  logo: File;
+  bgImage: File;
 }
 
 export type StoreDocument = Store & mongoose.Document;
