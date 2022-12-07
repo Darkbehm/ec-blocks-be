@@ -67,6 +67,7 @@ export class ProductService {
     id: string,
     updateProductDto: UpdateProductDto,
     files: Express.Multer.File[],
+    user: string,
   ): Promise<any> {
     try {
       const actualProduct = await this.ProductModel.findById(id);
@@ -110,7 +111,7 @@ export class ProductService {
     }
   }
 
-  async remove(id: string) {
+  async remove(id: string, user: string) {
     try {
       return await this.ProductModel.findByIdAndDelete(id);
     } catch (error) {
