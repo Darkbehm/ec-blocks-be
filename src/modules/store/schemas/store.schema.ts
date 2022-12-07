@@ -38,6 +38,15 @@ export class Store {
   )
   logo: Record<string, any>;
 
+  // the images will be stored in the cloud and the url and the id will be stored here
+  @Prop(
+    raw({
+      url: { type: String, required: true },
+      key: { type: String, required: true },
+    }),
+  )
+  bgImage: Record<string, any>;
+
   @Prop({ required: false })
   globalCss: string;
 
