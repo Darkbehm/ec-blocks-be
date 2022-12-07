@@ -193,7 +193,6 @@ export class StoreService {
           },
         };
       }
-
       if (action === 'suspend' && userObject.type === 'admin') {
         const store = await this.StoreModel.findByIdAndUpdate(
           id,
@@ -314,6 +313,7 @@ export class StoreService {
         !(actualStore.owner.toString() === user) &&
         userObject.type !== 'admin'
       ) {
+
         return {
           hasError: true,
           errorCode: 'ecb-0009',
