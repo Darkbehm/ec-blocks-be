@@ -81,7 +81,6 @@ export class StoreController {
     },
     @Request()
     req: {
-
       user: UserDetail;
     },
   ) {

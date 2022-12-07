@@ -313,7 +313,6 @@ export class StoreService {
         !(actualStore.owner.toString() === user) &&
         userObject.type !== 'admin'
       ) {
-
         return {
           hasError: true,
           errorCode: 'ecb-0009',
