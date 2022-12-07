@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { FilesService } from 'src/modules/files/files.service';
-import { StoreDocument } from 'src/types';
+import { StoreDocument, UserDetail } from 'src/types';
 import { errorResponseECBlocks } from 'src/types/response';
 import { PAGE_LIMIT } from 'src/types/standars';
 import { StoreDetails } from 'src/types/store';
@@ -102,17 +102,21 @@ export class StoreService {
 
       const storesDetails: StoreDetails[] = stores.map((store) => {
         return {
+          id: store._id,
           tittle: store.tittle,
           description: store.description,
           keyWords: store.keyWords,
           favIcon: store.favIcon,
           logo: store.logo,
           bgImage: store.bgImage,
+          createdAt: store.createdAt,
+          isActive: store.isActive,
         };
       });
       return {
         stores: storesDetails,
         totalPages: totalPages,
+        totalStores: totalStores,
       };
     } catch (error) {
       return {
@@ -172,9 +176,11 @@ export class StoreService {
       logo: [Express.Multer.File];
       bgImage: [Express.Multer.File];
     },
-    user: string,
+    userObject: UserDetail,
+    action: 'update' | 'suspend' | 'activate',
   ): Promise<any> {
     try {
+      const user = userObject.id;
       const actualStore = await this.StoreModel.findById(id);
 
       if (actualStore === null) {
@@ -185,6 +191,20 @@ export class StoreService {
           data: {
             storeId: id,
           },
+        };
+      }
+      if (action === 'suspend' && userObject.type === 'admin') {
+        const store = await this.StoreModel.findByIdAndUpdate(
+          id,
+          {
+            isActive: !actualStore.isActive,
+          },
+          {
+            new: true,
+          },
+        );
+        return {
+          isActive: (store as StoreDocument).isActive,
         };
       }
 
@@ -266,8 +286,17 @@ export class StoreService {
     }
   }
 
-  async remove(id: string, user: string): Promise<errorResponseECBlocks> {
+  async remove(
+    id: string,
+    userObject: UserDetail,
+  ): Promise<
+    | errorResponseECBlocks
+    | {
+        isDeleted: boolean;
+      }
+  > {
     try {
+      const user = userObject.id;
       const actualStore = await this.StoreModel.findById(id);
       if (actualStore === null) {
         return {
@@ -279,7 +308,12 @@ export class StoreService {
           },
         };
       }
-      if (!(actualStore.owner.toString() === user)) {
+
+      if (
+        !(actualStore.owner.toString() === user) &&
+        userObject.type !== 'admin'
+      ) {
+
         return {
           hasError: true,
           errorCode: 'ecb-0009',
@@ -297,12 +331,7 @@ export class StoreService {
         throw new Error('Error deleting store');
       }
       return {
-        hasError: false,
-        errorCode: 'ecb-0000',
-        message: 'Store deleted',
-        data: {
-          storeId: id,
-        },
+        isDeleted: true,
       };
     } catch (error) {
       return {
@@ -320,4 +349,5 @@ export class StoreService {
 type storesReturnType = {
   totalPages: number;
   stores: StoreDetails[];
+  totalStores: number;
 };
