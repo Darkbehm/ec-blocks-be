@@ -7,7 +7,6 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { StoreModule } from './modules/store/store.module';
 import { ProductModule } from './modules/product/product.module';
-import { PageModule } from './modules/page/page.module';
 
 ConfigModule.forRoot();
 
@@ -21,7 +20,6 @@ ConfigModule.forRoot();
     StoreModule,
     ConfigModule.forRoot(),
     ProductModule,
-    PageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
