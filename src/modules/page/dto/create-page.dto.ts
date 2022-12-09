@@ -17,6 +17,7 @@ export class CreatePageDto {
       {
         name: 'A name...',
         color: '#fff..',
+        cssClass: 'block-class...',
         cssCode: ' * { margin: 0;}',
         htmlCode: '<h1>Hello World</h1>',
         jsCode: `console.log('Hello World');`,

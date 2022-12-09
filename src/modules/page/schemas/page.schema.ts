@@ -23,6 +23,7 @@ export class Page {
     raw({
       name: { type: String, required: true },
       color: { type: String, required: true },
+      cssClass: { type: String, default: '' },
       htmlCode: { type: String, required: false, default: '' },
       cssCode: { type: String, required: false, default: '' },
       jsCode: { type: String, required: false, default: '' },

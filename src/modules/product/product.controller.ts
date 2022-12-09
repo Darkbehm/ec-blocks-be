@@ -56,13 +56,13 @@ export class ProductController {
     @UploadedFiles() files: Array<Express.Multer.File>,
     @Request() req: { user: { id: string } },
   ) {
-    return this.productService.update(id, updateProductDto, files);
+    return this.productService.update(id, updateProductDto, files, req.user.id);
   }
 
   @Delete(':id')
   @Roles(USER_TYPES.SELLER, USER_TYPES.ADMIN)
   @UseGuards(JwtGuard, RolesGuard)
   remove(@Param('id') id: string, @Request() req: { user: { id: string } }) {
-    return this.productService.remove(id);
+    return this.productService.remove(id, req.user.id);
   }
 }
